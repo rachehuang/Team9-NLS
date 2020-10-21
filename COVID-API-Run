@@ -13,8 +13,8 @@ api = NewsApiClient(api_key='af6aab5ad5264be0a93a74b521e753a9')
 
 # Function to grab articles from the api
 def newsapi(key= ''):
-    all_articles = api.get_everything(q='COVID')
-    more_articles = api.get_everything(q='Coronavirus')       
+    all_articles = api.get_everything(q='COVID', to= date.today(), from_param='2020-09-21')
+    more_articles = api.get_everything(q='Coronavirus',to= date.today(), from_param='2020-09-21')       
     return all_articles, more_articles
 
 def save_file(dict= ''):
@@ -33,5 +33,5 @@ def newsapi_today(key=''):
 
 
 # Uncomment this to run
-save_file(newsapi_today(api))
+#save_file(newsapi_today(api))
 

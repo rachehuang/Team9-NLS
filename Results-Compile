@@ -1,7 +1,8 @@
 import json
 import pandas as pd
+import datetime
 
-file = 'articles2020-10-21.json'
+file = 'articles20201021-093045.json'
 
 with open(file) as f:
   data = json.load(f)
@@ -21,9 +22,11 @@ def unpack(df, column, fillna=None):
     return ret
 
 def write_csv():
-  df = pd.DataFrame.from_dict(data[1]['articles'])
-  df = unpack(df, 'source')
-  with open('Article_Content', 'a') as f:
-    df.to_csv(f, header=False)
+  for i in range(1):
+    df = pd.DataFrame.from_dict(data[i]['articles'])
+    df = unpack(df, 'source')
+    with open('Article_Content', 'a') as f:
+      df.to_csv(f, header=False)
 
-write_csv()
+#write_csv()
+print(datetime.datetime.now().time())
