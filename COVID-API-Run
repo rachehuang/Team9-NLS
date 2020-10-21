@@ -1,0 +1,37 @@
+
+#pip install newsapi-python
+from newsapi import NewsApiClient
+import requests  
+import pandas as pd
+import json
+import datetime
+from datetime import date
+
+
+# Our newsapi API key number is af6aab5ad5264be0a93a74b521e753a9
+api = NewsApiClient(api_key='af6aab5ad5264be0a93a74b521e753a9')
+
+# Function to grab articles from the api
+def newsapi(key= ''):
+    all_articles = api.get_everything(q='COVID')
+    more_articles = api.get_everything(q='Coronavirus')       
+    return all_articles, more_articles
+
+def save_file(dict= ''):
+    with open('articles{}.json'.format(datetime.datetime.now().strftime("%Y%m%d-%H%M%S")), 'w') as fp:
+        json.dump(dict, fp)
+
+
+# Using this function will save a json file with the dictionaries returned in newsapi (for the last month)  
+#save_file(newsapi(api))
+
+# Grabbing articles for today
+def newsapi_today(key=''):
+    today_articles = api.get_everything(q='COVID', from_param= date.today().strftime("%Y-%m-%d"))
+    today_articles_2 = api.get_everything(q='Coronavirus', from_param= date.today().strftime("%Y-%m-%d"))
+    return today_articles, today_articles_2
+
+
+# Uncomment this to run
+save_file(newsapi_today(api))
+

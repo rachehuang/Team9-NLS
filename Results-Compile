@@ -1,0 +1,29 @@
+import json
+import pandas as pd
+
+file = 'articles2020-10-21.json'
+
+with open(file) as f:
+  data = json.load(f)
+
+# Dictionary is made up with 2 API pulls - one for "COVID" and the second for "Coronavirus"
+total_results = (data[0]['totalResults'], data[1]['totalResults'])
+print('Number of articles for "COVID": {}, number of results for "Coronavirus": {}'.format(total_results[0], total_results[1]))
+
+def unpack(df, column, fillna=None):
+    ret = None
+    if fillna is None:
+        ret = pd.concat([df, pd.DataFrame((d for idx, d in df[column].iteritems()))], axis=1)
+        del ret[column]
+    else:
+        ret = pd.concat([df, pd.DataFrame((d for idx, d in df[column].iteritems())).fillna(fillna)], axis=1)
+        del ret[column]
+    return ret
+
+def write_csv():
+  df = pd.DataFrame.from_dict(data[1]['articles'])
+  df = unpack(df, 'source')
+  with open('Article_Content', 'a') as f:
+    df.to_csv(f, header=False)
+
+write_csv()
