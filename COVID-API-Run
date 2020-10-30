@@ -10,9 +10,6 @@ from datetime import date, timedelta
 from collections import defaultdict
 import config
 
-
-
-
 api = NewsApiClient(api_key=config.api_key)
 
 class GatherArticles:
@@ -22,24 +19,16 @@ class GatherArticles:
         self.key_words = key_words
         self.end_date = date.today() - timedelta(days = 30)
 
-    def _grab_initial(self):
-        all_articles = self.api_key.get_everything(q=self.key_words, to= date.today(), from_param= self.end_date, page=1)
-        results = all_articles['totalResults']
-        pages = math.ceil((results/100))
+    def grab_articles(self):
+        all_articles = self.api_key.get_everything(q=self.key_words, to= date.today(), from_param= self.end_date, page_size=100, page=1)
         with open('articles{}.json'.format(datetime.datetime.now().strftime("%Y%m%d")), 'w') as fp:
             json.dump(all_articles, fp)
-        return pages
-    
-    def grab_articles(self):
-        self._grab_initial()
-        with open('articles{}.json'.format(datetime.datetime.now().strftime("%Y%m%d")), "r+") as file:
-            data = json.load(file)
-            for i in range (2, 6):
-                all_articles = self.api_key.get_everything(q=self.key_words, to= date.today(), from_param= self.end_date, page=i)
-                data.update(all_articles)
-                file.seek(0)
-            json.dump(data, file)
+            print(fp)
         print('Saved.')
+
+
+
+
 
 
 run = GatherArticles(api,'COVID OR Coronavirus')

@@ -2,14 +2,10 @@ import json
 import pandas as pd
 import datetime
 
-file = 'articles20201021-093045.json'
+file = 'articles20201030.json'
 
 with open(file) as f:
   data = json.load(f)
-
-# Dictionary is made up with 2 API pulls - one for "COVID" and the second for "Coronavirus"
-total_results = (data[0]['totalResults'], data[1]['totalResults'])
-print('Number of articles for "COVID": {}, number of results for "Coronavirus": {}'.format(total_results[0], total_results[1]))
 
 def unpack(df, column, fillna=None):
     ret = None
@@ -22,11 +18,11 @@ def unpack(df, column, fillna=None):
     return ret
 
 def write_csv():
-  for i in range(1):
-    df = pd.DataFrame.from_dict(data[i]['articles'])
-    df = unpack(df, 'source')
-    with open('Article_Content', 'a') as f:
-      df.to_csv(f, header=False)
+  df = pd.DataFrame.from_dict(data['articles'])
+  df = unpack(df, 'source')
+  with open('Article_Content', 'a') as f:
+    df.to_csv(f, header=False)
 
+# UNCOMMENT LINE BELOW TO RUN THE CODE AND COMPILE
 #write_csv()
-print(datetime.datetime.now().time())
+print(article, datetime.datetime.now().time())
