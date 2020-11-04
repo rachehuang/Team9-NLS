@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import datetime
 
-file = 'Json Files/articles20201102.json'
+file = 'Json Files/articles20201104.json'
 
 with open(file) as f:
   data = json.load(f)
@@ -25,5 +25,5 @@ def write_csv():
   print("added", file)
 
 # UNCOMMENT LINE BELOW TO RUN THE CODE AND COMPILE
-#write_csv()
+write_csv()
 print(datetime.datetime.now().time())
