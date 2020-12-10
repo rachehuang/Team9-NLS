@@ -1,0 +1,8 @@
+pull: 
+	python api_run.py
+
+articles_all/combined.csv: combine.py json_files
+	python combine.py json_files articles_all/combined.csv
+
+web_scrape/contents.csv: clean.py articles_all/combined.csv
+	python clean.py articles_all/combined.csv web_scrape/contents.csv
